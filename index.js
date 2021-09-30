@@ -31,7 +31,7 @@ for (let i = 0; i < transactionsAsStrings.length; i++) {
             transactionAsArray[1],
             transactionAsArray[2],
             transactionAsArray[3],
-            transactionAsArray[4]
+            parseFloat(transactionAsArray[4])
         )
     );
 }
