@@ -50,8 +50,22 @@ for (let i = 0; i < transactions.length; i++) {
 
 const accounts = [];
 
-for (let i = 0; i < accountNames.length; i++) {
-    accounts.push(new Account(accountNames[i]));
+for (const accountName of accountNames) {
+    accounts.push(new Account(accountName));
+}
+
+for (const transaction of transactions) {
+    const fromAccount = findAccount(transaction.from);
+    if (fromAccount === undefined) {
+        throw Error("From account not found");
+    }
+    fromAccount.balance -= transaction.amount;
+
+    const toAccount = findAccount(transaction.to);
+    if (toAccount === undefined) {
+        throw Error("To account not found");
+    }
+    toAccount.balance += transaction.amount;
 }
 
 function removeHeader(transactionsAsStrings) {
@@ -67,4 +81,11 @@ function doesAccountNameAlreadyExist(accountName, accountNames) {
     return false;
 }
 
-
+function findAccount(accountName) {
+    for (const account of accounts) {
+        if (account.name === accountName) {
+            return account;
+        }
+    }
+    return undefined;
+}
